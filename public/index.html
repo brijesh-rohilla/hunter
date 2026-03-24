@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataEntry — Company Records</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">DE</div>
+      <span class="brand-name">DataEntry</span>
+    </div>
+    <nav class="nav">
+      <button class="nav-item active" data-tab="upload">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 14V4m0 0L6 8m4-4l4 4"/><rect x="3" y="14" width="14" height="3" rx="1"/></svg>
+        Upload Data
+      </button>
+      <button class="nav-item" data-tab="query">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="5"/><path d="M15 15l-3-3"/></svg>
+        Query Records
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="version-tag">v1.0.0</span>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ─────────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- ── UPLOAD TAB ─────────────────────────────────────────────────── -->
+    <section class="tab-panel active" id="tab-upload">
+      <header class="panel-header">
+        <div>
+          <p class="panel-eyebrow">Data Ingestion</p>
+          <h1 class="panel-title">Upload Company Records</h1>
+        </div>
+      </header>
+
+      <div class="card">
+        <form id="uploadForm" novalidate>
+
+          <!-- City select -->
+          <div class="field-group">
+            <label class="field-label" for="uploadCity">
+              City <span class="required">*</span>
+            </label>
+            <div class="select-wrapper">
+              <select id="uploadCity" name="city" required>
+                <option value="" disabled selected>Select a city…</option>
+                <option>Mohali</option>
+                <option>Delhi NCR</option>
+                <option>Bangalore</option>
+                <option>Hyderabad</option>
+                <option>Pune</option>
+                <option>Mumbai</option>
+              </select>
+              <svg class="select-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4l4 4 4-4"/></svg>
+            </div>
+          </div>
+
+          <!-- JSON text area -->
+          <div class="field-group">
+            <label class="field-label" for="jsonText">
+              JSON Payload
+              <span class="field-hint">Paste an array of company records</span>
+            </label>
+            <textarea
+              id="jsonText"
+              name="jsonText"
+              class="code-textarea"
+              rows="10"
+              placeholder='[&#10;  {&#10;    "companyName": "Acme Corp",&#10;    "careersPageURL": "https://acme.com/careers",&#10;    "city": "Mohali"&#10;  }&#10;]'
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Divider -->
+          <div class="or-divider"><span>or upload a file</span></div>
+
+          <!-- File drop zone -->
+          <div class="field-group">
+            <div class="dropzone" id="dropzone">
+              <input type="file" id="jsonFile" name="jsonFile" accept=".json,application/json" class="dropzone-input" />
+              <div class="dropzone-content">
+                <svg class="dropzone-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="8" y="8" width="32" height="36" rx="3"/>
+                  <path d="M16 28l6-6 4 4 6-8"/>
+                  <path d="M30 8v10h10"/>
+                </svg>
+                <p class="dropzone-label">Drop your <strong>.json</strong> file here</p>
+                <p class="dropzone-sub">or <span class="link-text">browse to upload</span></p>
+                <div class="dropzone-file-info" id="fileInfo" style="display:none"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="form-actions">
+            <button type="button" class="btn-ghost" id="clearUpload">Clear</button>
+            <button type="submit" class="btn-primary" id="uploadBtn">
+              <span class="btn-text">Upload &amp; Save</span>
+              <div class="btn-spinner" style="display:none"></div>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Result banner -->
+      <div class="result-banner" id="uploadResult" style="display:none"></div>
+    </section>
+
+    <!-- ── QUERY TAB ──────────────────────────────────────────────────── -->
+    <section class="tab-panel" id="tab-query">
+      <header class="panel-header">
+        <div>
+          <p class="panel-eyebrow">Data Retrieval</p>
+          <h1 class="panel-title">Query Records by City</h1>
+        </div>
+      </header>
+
+      <div class="card">
+        <form id="queryForm" novalidate>
+          <div class="field-group">
+            <label class="field-label" for="queryCity">
+              City <span class="required">*</span>
+            </label>
+            <div class="select-wrapper">
+              <select id="queryCity" name="city" required>
+                <option value="" disabled selected>Select a city…</option>
+                <option>Mohali</option>
+                <option>Delhi NCR</option>
+                <option>Bangalore</option>
+                <option>Hyderabad</option>
+                <option>Pune</option>
+                <option>Mumbai</option>
+              </select>
+              <svg class="select-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4l4 4 4-4"/></svg>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="queryBtn">
+              <span class="btn-text">Fetch Records</span>
+              <div class="btn-spinner" style="display:none"></div>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Count card + export buttons -->
+      <div class="export-section" id="exportSection" style="display:none">
+        <div class="count-card">
+          <span class="count-number" id="recordCount">0</span>
+          <span class="count-label">records found in <strong id="countCity"></strong></span>
+        </div>
+
+        <div class="export-actions">
+          <p class="export-label">Download as:</p>
+          <div class="export-btns">
+            <button class="export-btn pdf" id="btnPDF">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h8l4 4v10H4V4z"/><path d="M12 4v4h4"/><path d="M7 11h6m-6 3h4"/></svg>
+              PDF
+            </button>
+            <button class="export-btn csv" id="btnCSV">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M3 8h14M3 13h14M8 3v14"/></svg>
+              CSV
+            </button>
+            <button class="export-btn json" id="btnJSON">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3C4.5 3 4 4 4 5.5v4C4 11 3 11 3 11s1 0 1 1.5v4C4 18 4.5 18 6 18"/><path d="M14 3c1.5 0 2 1 2 2.5v4c0 1.5 1 1.5 1 1.5s-1 0-1 1.5v4c0 1.5-.5 1.5-2 1.5"/><path d="M10 8v4"/><circle cx="10" cy="8" r=".5" fill="currentColor"/></svg>
+              JSON
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result banner -->
+      <div class="result-banner" id="queryResult" style="display:none"></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
