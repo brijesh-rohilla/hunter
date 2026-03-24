@@ -5,12 +5,6 @@ require('dotenv').config();
 
 const app = require('./app');
 const logger = require('./utils/logger');
-const fs = require('fs');
-const path = require('path');
-
-// Ensure logs directory exists
-const logsDir = path.join(__dirname, '..', 'logs');
-if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 

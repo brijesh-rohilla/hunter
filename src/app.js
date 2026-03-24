@@ -12,7 +12,6 @@ const path = require('path');
 const companyRoutes = require('./routes/company.routes');
 const errorHandler = require('./middleware/errorHandler');
 const requestLogger = require('./middleware/requestLogger');
-const logger = require('./utils/logger');
 
 const app = express();
 
@@ -37,6 +36,7 @@ const limiter = rateLimit({
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { trustProxy: false },
   message: {
     success: false,
     code: 'TOO_MANY_REQUESTS',
@@ -53,14 +53,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(requestLogger);
 
 // ── Static frontend ────────────────────────────────────────────────────────
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Use process.cwd() so the path resolves correctly on Vercel (where __dirname
+// points inside .vercel/output, not the repo root).
+const publicDir = path.join(process.cwd(), 'public');
+app.use(express.static(publicDir));
 
 // ── API routes ─────────────────────────────────────────────────────────────
 app.use('/api/companies', companyRoutes);
 
-// ── Fallback: serve index.html for any unmatched GET (SPA-style) ──────────
+// ── Fallback: serve index.html for any non-API GET ─────────────────────────
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 // ── Global error handler (must be last) ───────────────────────────────────
