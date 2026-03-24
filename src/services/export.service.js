@@ -77,7 +77,7 @@ function toPDF(records, city) {
     doc.moveDown(1);
 
     // ── Column layout ──────────────────────────────────────────────────────
-    const colWidths = [130, 80, 140, 110, 110, 110, 60, 80];
+    const colWidths = [130, 80, 120, 110, 110, 220];
     const colHeaders = [
       'Company Name',
       'Type',
