@@ -85,8 +85,6 @@ function toPDF(records, city) {
       'Career Email',
       'Hiring Mgr Email',
       'HR Emails',
-      'City',
-      'Last Checked',
     ];
     const tableLeft = doc.page.margins.left;
     const rowHeight = 22;
@@ -166,7 +164,6 @@ function toPDF(records, city) {
           rec.careerEmail,
           rec.hiringManagerEmail,
           hrDisplay,
-          rec.city,
         ],
         __record: rec,
       };
