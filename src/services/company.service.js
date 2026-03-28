@@ -7,8 +7,8 @@ const logger = require('../utils/logger');
 
 /**
  * Merge a new record with an existing DB row, applying field-level rules:
- *   - careerEmail / hiringManagerEmail: keep old value if new value is absent
- *   - HREmails: union of old array + new emails (no duplicates, case-insensitive)
+ *   - careerEmail: keep old value if new value is absent
+ *   - hiringManagerEmail / HREmails: union of old + new (no duplicates, case-insensitive)
  *   - All other fields: overwrite with new value
  *
  * @param {object} existing - Row from DB
@@ -22,26 +22,27 @@ function mergeRecord(existing, incoming) {
       ? incoming.careerEmail.trim()
       : existing.careerEmail;
 
-  // Determine hiringManagerEmail
-  const hiringManagerEmail =
-    incoming.hiringManagerEmail && incoming.hiringManagerEmail.trim()
-      ? incoming.hiringManagerEmail.trim()
-      : existing.hiringManagerEmail;
-
-  // Merge HREmails: union, deduplicated by lower-case
-  const existingHR = Array.isArray(existing.HREmails) ? existing.HREmails : [];
-  const incomingHR = Array.isArray(incoming.HREmails) ? incoming.HREmails : [];
-  const hrSet = new Map();
-  for (const email of [...existingHR, ...incomingHR]) {
-    const key = email.trim().toLowerCase();
-    if (key) hrSet.set(key, email.trim());
+  function mergeEmailArrays(existingArr, incomingArr) {
+    const existingList = Array.isArray(existingArr) ? existingArr : [];
+    const incomingList = Array.isArray(incomingArr) ? incomingArr : [];
+    const map = new Map();
+    for (const email of [...existingList, ...incomingList]) {
+      const key = email.trim().toLowerCase();
+      if (key) map.set(key, email.trim());
+    }
+    return Array.from(map.values());
   }
-  const HREmails = Array.from(hrSet.values());
+
+  const hiringManagerEmail = mergeEmailArrays(
+    existing.hiringManagerEmail,
+    incoming.hiringManagerEmail,
+  );
+  const HREmails = mergeEmailArrays(existing.HREmails, incoming.HREmails);
 
   return {
     companyName: existing.companyName, // canonical key — never change
     companyType: incoming.companyType ?? existing.companyType,
-    careersPageURL: incoming.careersPageURL,
+    careerPageURL: incoming.careerPageURL,
     careerEmail,
     hiringManagerEmail,
     HREmails,
@@ -116,9 +117,9 @@ async function upsertCompanies(records) {
         return {
           companyName: incoming.companyName,
           companyType: incoming.companyType ?? null,
-          careersPageURL: incoming.careersPageURL,
+          careerPageURL: incoming.careerPageURL,
           careerEmail: incoming.careerEmail ?? null,
-          hiringManagerEmail: incoming.hiringManagerEmail ?? null,
+          hiringManagerEmail: incoming.hiringManagerEmail ?? [],
           HREmails: incoming.HREmails ?? [],
           city: incoming.city,
         };

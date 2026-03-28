@@ -3,18 +3,31 @@
 -- Run this in your Supabase SQL editor before starting the app
 -- ============================================================
 
--- Create the companies table
+CREATE OR REPLACE FUNCTION email_text_array_no_duplicates(arr text[])
+RETURNS boolean AS $$
+  WITH elems AS (
+    SELECT lower(trim(e)) AS k
+    FROM unnest(COALESCE(arr, '{}')) AS e
+    WHERE trim(e) <> ''
+  )
+  SELECT COALESCE((SELECT count(*) FROM elems) = (SELECT count(DISTINCT k) FROM elems), true);
+$$ LANGUAGE sql IMMUTABLE;
+
 CREATE TABLE IF NOT EXISTS companies (
   id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "companyName"   TEXT NOT NULL UNIQUE,
   "companyType"   TEXT,
-  "careersPageURL" TEXT NOT NULL,
+  "careerPageURL" TEXT NOT NULL,
   "careerEmail"   TEXT,
-  "hiringManagerEmail" TEXT,
-  "HREmails"      TEXT[] DEFAULT '{}',
+  "hiringManagerEmail" TEXT[] NOT NULL DEFAULT '{}',
+  "HREmails"      TEXT[] NOT NULL DEFAULT '{}',
   city            TEXT NOT NULL,
   created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT chk_hiring_manager_emails_no_dupes
+    CHECK (email_text_array_no_duplicates("hiringManagerEmail")),
+  CONSTRAINT chk_hr_emails_no_dupes
+    CHECK (email_text_array_no_duplicates("HREmails"))
 );
 
 -- Index for fast city filtering

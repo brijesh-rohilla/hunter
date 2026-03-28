@@ -2,7 +2,7 @@
   {
     "companyName": "TechNova Solutions",
     "companyType": "Product",
-    "careersPageURL": "https://technovasolutions.com/careers",
+    "careerPageURL": "https://technovasolutions.com/careers",
     "careerEmail": "careers@technovasolutions.com",
     "hiringManagerEmail": "hiring@technovasolutions.com",
     "HREmails": "hr1@technovasolutions.com,hr2@technovasolutions.com"
@@ -10,7 +10,7 @@
   {
     "companyName": "Infra Dynamics",
     "companyType": "Services",
-    "careersPageURL": "https://infradynamics.in/jobs",
+    "careerPageURL": "https://infradynamics.in/jobs",
     "careerEmail": "jobs@infradynamics.in",
     "hiringManagerEmail": "",
     "HREmails": "hr@infradynamics.in"
@@ -18,7 +18,7 @@
   {
     "companyName": "CloudEdge Inc",
     "companyType": "SaaS",
-    "careersPageURL": "https://cloudedge.io/careers",
+    "careerPageURL": "https://cloudedge.io/careers",
     "careerEmail": "talent@cloudedge.io",
     "hiringManagerEmail": "manager@cloudedge.io",
     "HREmails": "hr@cloudedge.io,people@cloudedge.io"

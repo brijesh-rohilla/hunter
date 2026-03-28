@@ -126,7 +126,7 @@ Returns a file download with appropriate `Content-Disposition` header.
 | `id` | UUID | Auto-generated PK |
 | `companyName` | TEXT | **Unique** — upsert key |
 | `companyType` | TEXT | Optional |
-| `careersPageURL` | TEXT | Required |
+| `careerPageURL` | TEXT | Required |
 | `careerEmail` | TEXT | Optional; kept if new value absent |
 | `hiringManagerEmail` | TEXT | Optional; kept if new value absent |
 | `HREmails` | TEXT[] | Union-merged; no duplicates |

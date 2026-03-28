@@ -7,7 +7,7 @@ const AppError = require('../utils/AppError');
 const HEADERS = [
   'companyName',
   'companyType',
-  'careersPageURL',
+  'careerPageURL',
   'careerEmail',
   'hiringManagerEmail',
   'HREmails',
@@ -155,14 +155,17 @@ function toPDF(records, city) {
       }
 
       const hrDisplay = Array.isArray(rec.HREmails) ? rec.HREmails.join(', ') : '';
+      const hmDisplay = Array.isArray(rec.hiringManagerEmail)
+        ? rec.hiringManagerEmail.join(', ')
+        : (rec.hiringManagerEmail ?? '');
 
       const row = {
         cells: [
           rec.companyName,
           rec.companyType,
-          rec.careersPageURL,
+          rec.careerPageURL,
           rec.careerEmail,
-          rec.hiringManagerEmail,
+          hmDisplay,
           hrDisplay,
         ],
         __record: rec,
