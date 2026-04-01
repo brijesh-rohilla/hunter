@@ -42,6 +42,8 @@ function mergeRecord(existing, incoming) {
   return {
     companyName: existing.companyName, // canonical key — never change
     companyType: incoming.companyType ?? existing.companyType,
+    website: incoming.website ?? existing.website,
+    companySize: incoming.companySize ?? existing.companySize,
     careerPageURL: incoming.careerPageURL,
     careerEmail,
     hiringManagerEmail,
@@ -117,6 +119,8 @@ async function upsertCompanies(records) {
         return {
           companyName: incoming.companyName,
           companyType: incoming.companyType ?? null,
+          website: incoming.website,
+          companySize: incoming.companySize ?? null,
           careerPageURL: incoming.careerPageURL,
           careerEmail: incoming.careerEmail ?? null,
           hiringManagerEmail: incoming.hiringManagerEmail ?? [],

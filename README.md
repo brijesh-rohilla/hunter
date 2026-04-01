@@ -126,9 +126,11 @@ Returns a file download with appropriate `Content-Disposition` header.
 | `id` | UUID | Auto-generated PK |
 | `companyName` | TEXT | **Unique** — upsert key |
 | `companyType` | TEXT | Optional |
+| `website` | TEXT | Required |
+| `companySize` | TEXT | Optional |
 | `careerPageURL` | TEXT | Required |
 | `careerEmail` | TEXT | Optional; kept if new value absent |
-| `hiringManagerEmail` | TEXT | Optional; kept if new value absent |
+| `hiringManagerEmail` | TEXT[] | Union-merged; no duplicates |
 | `HREmails` | TEXT[] | Union-merged; no duplicates |
 | `city` | TEXT | One of six supported cities |
 | `created_at` | TIMESTAMPTZ | Auto |
@@ -145,7 +147,7 @@ An **in-process promise-based lock** (`withLock`) in `company.service.js` serial
 | Field | Rule |
 |-------|------|
 | `careerEmail` | Use new value if non-empty; otherwise keep existing |
-| `hiringManagerEmail` | Use new value if non-empty; otherwise keep existing |
+| `hiringManagerEmail` | Union of existing + incoming, deduplicated case-insensitively |
 | `HREmails` | Union of existing + incoming, deduplicated case-insensitively |
 | All other fields | Overwrite with new value |
 
@@ -155,7 +157,8 @@ All records in a batch are built in memory first. A single `bulkUpsert` call sen
 ### Validation
 - Payload must be a JSON **array** (not an object or primitive).
 - Each record is validated with a **Joi schema** — unknown fields are stripped, type coercions applied.
-- `HREmails` normalised from comma-separated strings or arrays before storage.
+- `website` is required and must be a valid URL; `companySize` is optional.
+- `hiringManagerEmail` and `HREmails` normalised from comma-separated strings or arrays before storage.
 - Duplicate `companyName` within a single batch is rejected immediately.
 
 ### Security

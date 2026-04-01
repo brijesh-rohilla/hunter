@@ -8,6 +8,8 @@ const CITIES = ['Mohali', 'Delhi NCR', 'Bangalore', 'Hyderabad', 'Pune', 'Mumbai
 const companyRecordSchema = Joi.object({
   companyName: Joi.string().trim().min(1).max(255).required(),
   companyType: Joi.string().trim().max(255).allow('', null).optional(),
+  website: Joi.string().uri().max(2048).required(),
+  companySize: Joi.string().trim().max(255).allow('', null).optional(),
   careerPageURL: Joi.string().uri().max(2048).required(),
   careerEmail: Joi.string().email().max(255).allow('', null).optional(),
   hiringManagerEmail: Joi.alternatives()

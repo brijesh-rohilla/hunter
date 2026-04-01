@@ -2,6 +2,8 @@
   {
     "companyName": "TechNova Solutions",
     "companyType": "Product",
+    "website": "https://technovasolutions.com",
+    "companySize": "201-500",
     "careerPageURL": "https://technovasolutions.com/careers",
     "careerEmail": "careers@technovasolutions.com",
     "hiringManagerEmail": "hiring@technovasolutions.com",
@@ -10,6 +12,8 @@
   {
     "companyName": "Infra Dynamics",
     "companyType": "Services",
+    "website": "https://infradynamics.in",
+    "companySize": "51-200",
     "careerPageURL": "https://infradynamics.in/jobs",
     "careerEmail": "jobs@infradynamics.in",
     "hiringManagerEmail": "",
@@ -18,6 +22,8 @@
   {
     "companyName": "CloudEdge Inc",
     "companyType": "SaaS",
+    "website": "https://cloudedge.io",
+    "companySize": "11-50",
     "careerPageURL": "https://cloudedge.io/careers",
     "careerEmail": "talent@cloudedge.io",
     "hiringManagerEmail": "manager@cloudedge.io",

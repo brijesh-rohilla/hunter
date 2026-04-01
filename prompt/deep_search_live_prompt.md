@@ -30,6 +30,8 @@ Tasks:
 4. Collect Data:
    - Company Name
    - Company Type (Product / Startup / Service)
+   - Website
+   - Company Size
    - Location
    - Careers Page URL
    - Job Posting URL (if available)
@@ -64,6 +66,8 @@ List of all companies in a JSON file with keys below:
    - Location
    - Company Type
    - Hiring Status (Active / Hidden)
+   - Website
+   - Company Size
    - Careers URL
    - Job URL
    - Hiring Speed

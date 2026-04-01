@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS companies (
   "companyName"   TEXT NOT NULL UNIQUE,
   "companyType"   TEXT,
   "careerPageURL" TEXT NOT NULL,
+  "website"       TEXT NOT NULL,
+  "companySize"   TEXT,
   "careerEmail"   TEXT,
   "hiringManagerEmail" TEXT[] NOT NULL DEFAULT '{}',
   "HREmails"      TEXT[] NOT NULL DEFAULT '{}',

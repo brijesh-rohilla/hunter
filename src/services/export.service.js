@@ -7,6 +7,8 @@ const AppError = require('../utils/AppError');
 const HEADERS = [
   'companyName',
   'companyType',
+  'website',
+  'companySize',
   'careerPageURL',
   'careerEmail',
   'hiringManagerEmail',
@@ -77,10 +79,12 @@ function toPDF(records, city) {
     doc.moveDown(1);
 
     // ── Column layout ──────────────────────────────────────────────────────
-    const colWidths = [120, 40, 150, 150, 150, 220];
+    const colWidths = [100, 45, 120, 55, 135, 120, 120, 145];
     const colHeaders = [
       'Company Name',
       'Type',
+      'Website',
+      'Size',
       'Careers URL',
       'Career Email',
       'Hiring Mgr Email',
@@ -163,6 +167,8 @@ function toPDF(records, city) {
         cells: [
           rec.companyName,
           rec.companyType,
+          rec.website,
+          rec.companySize,
           rec.careerPageURL,
           rec.careerEmail,
           hmDisplay,

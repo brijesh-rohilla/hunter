@@ -19,6 +19,8 @@ Tasks:
    - Company Name
    - Company Type (Product / Startup / Service) (optional)
    - Careers Page URL
+   - Website
+   - Company Size
    - Career Email (optional)
    - Hiring Manager Email (optional)
    - Any 2-3 HR email who is currentrly working (optional)
